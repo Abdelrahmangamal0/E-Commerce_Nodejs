@@ -29,7 +29,7 @@ export class authController{
     }
       
     
-    @Patch('confirm_email')
+    @Post('confirm_email')
         async confirmEmail(@Body() body: confirmEmailDTO):Promise< IResponse>{
             
            await this.authServices.confirmEmail(body)
