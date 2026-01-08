@@ -1,23 +1,28 @@
-# E-Commerce Backend API (NestJS + GraphQL + Socket.io)
+# E-Commerce Backend API (NestJS + RESTful API + GraphQL + Socket.io)
 
-A fully-featured **E-Commerce Backend API** built with **NestJS**, **TypeScript**, **GraphQL**, and **Socket.io**.  
-This backend handles core e-commerce functionalities including authentication, product and order management, real-time updates, and more.  
-It is modular, scalable, and can be connected to any frontend (React, Angular, Vue, Flutter, etc.).
+A fully-featured E-Commerce Backend API built using NestJS and TypeScript.
+The project is designed as a RESTful-first backend, with selective usage of
+GraphQL for optimized querying and Socket.io for real-time communication.
+
+This backend handles authentication, users, products, orders, cart logic,
+payments, and real-time notifications, and can be connected to any frontend
+application such as React, Angular, Vue, or Flutter.
+
+This project follows NestJS best practices and is structured in a modular,
+scalable, and production-ready architecture.
 
 ---
 
-## Project Description
+## Project Description + Structure Overview
 
-This project represents the backend of an e-commerce system, designed using **NestJS best practices**.  
-It is structured to support:
+The system relies mainly on RESTful APIs to implement the core business logic.
+GraphQL is used only in specific scenarios where flexible querying and efficient
+data fetching are required. Socket.io is integrated to support real-time features
+such as order status updates and live notifications.
 
-- User authentication and role-based authorization
-- Product management (CRUD)
-- Order and cart logic
-- GraphQL API for flexible queries and mutations
-- Real-time communication using Socket.io
-- Database interaction via repository pattern
-- Modular architecture with reusable services, guards, interceptors, pipes, and utilities
+The project structure is organized to clearly separate concerns and encourage
+clean architecture and reusability.
+
 
 ---
 
@@ -59,134 +64,112 @@ uploads/                  # Uploaded files
 
 ---
 
+## API Architecture
+
+The backend uses a hybrid API approach:
+
+- RESTful API (Primary):
+  Used for authentication, users, products, orders, cart operations, payments,
+  and admin workflows.
+
+- GraphQL (Secondary):
+  Used for complex read operations, aggregated queries, and optimized data
+  fetching where REST is not ideal.
+
+- Socket.io:
+  Used for real-time order status updates, notifications, and event-based
+  communication.
+
+---
+
 ## Technologies Used
 
-- **Node.js**
-- **NestJS**
-- **TypeScript**
-- **GraphQL**
-- **Socket.io**
-- **npm**
-- **Jest** (Testing)
+- Node.js
+- NestJS
+- TypeScript
+- RESTful API
+- GraphQL
+- Socket.io
+- MongoDB
+- Jest
 
 ---
 
 ## Installation
 
-Clone the repository:
+Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/Abdelrahmangamal0/E-Commerce_Nodejs.git
 cd E-Commerce_Nodejs
-
-```
-
-Install dependencies:
-
-```bash
 npm install
+
 ```
 
-## Running the Application
+Development mode:
 
-Run in development mode:
-
-```bash
 npm run start:dev
-```
 
-Run in production mode:
 
-```bash
+Production mode:
+
 npm run start:prod
-```
 
-The server will start at:
 
-```
+Server will run on:
+
 http://localhost:3000
-```
 
----
 
-## Testing
+API Access
 
-Run unit tests:
+REST API Base URL:
 
-```bash
+http://localhost:3000/api
+
+
+GraphQL Endpoint:
+
+http://localhost:3000/graphql
+
+Testing
 npm run test
-```
-
-Run end-to-end tests:
-
-```bash
 npm run test:e2e
-```
-
-Generate test coverage:
-
-```bash
 npm run test:cov
-```
 
----
-
-## API Description
-
-This backend exposes RESTful APIs that handle:
-
-* User authentication and authorization
-* Product management
-* Orders and cart logic
-* Database operations via repository pattern
-
-API endpoints can be consumed by any frontend or mobile client.
-
----
-GraphQL
-
-Query and Mutation endpoints defined per module
-
-Supports flexible querying for users, products, and orders
-
-Socket.io
-
-Real-time notifications for order updates
-
-Event-based messaging for user interactions
-
-Notes
-
-Backend-only project (no frontend UI)
-
-Designed for real-world scalable applications
-
-Modular NestJS structure with reusable components
-
-Supports GraphQL and Socket.io for modern web apps
----
-
-## Deployment
+Deployment
 
 The project can be deployed on:
 
-* Render
-* Railway
-* Heroku
-* VPS using PM2 and Nginx
-* AWS 
+Render
 
-Ensure environment variables are configured correctly before deployment.
+Railway
 
----
+Heroku
 
-## License
+VPS using PM2 and Nginx
 
-This project is licensed under the MIT License.
+AWS
 
----
+Make sure all environment variables are configured correctly before deployment.
 
-## Author
+Notes
+
+Backend-only project
+
+RESTful API is the main architecture
+
+GraphQL is used as a complementary layer
+
+Designed for real-world scalable applications
+
+Clean and modular NestJS structure
+
+License
+
+MIT License
+
+Author
 
 Abdelrahman Gamal
-GitHub: [https://github.com/Abdelrahmangamal0](https://github.com/Abdelrahmangamal0)
+GitHub: https://github.com/Abdelrahmangamal0
