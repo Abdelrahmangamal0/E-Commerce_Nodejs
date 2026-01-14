@@ -22,7 +22,7 @@ export class OrderResolver{
         
     ) {
         const result = await this.orderService.findAll(getAllGraphQlDTO)
-        console.log(user );
+        // console.log(user );
         
         return result
     }

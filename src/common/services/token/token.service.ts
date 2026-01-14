@@ -94,14 +94,14 @@ export class TokenService {
     }
 
     const user = await this.userRepository.findOne({ filter: { _id: decoded._id } })
-    console.log(user);
+    // console.log(user);
     
     if (!user) {
       throw new UnauthorizedException('Account not found');
     }
-   console.log(user?.changeCredentialsTime?.getTime() || 0);
-   console.log(decoded.iat * 1000)
-    console.log((user?.changeCredentialsTime?.getTime() || 0) > decoded.iat * 1000);
+  //  console.log(user?.changeCredentialsTime?.getTime() || 0);
+  //  console.log(decoded.iat * 1000)
+  //   console.log((user?.changeCredentialsTime?.getTime() || 0) > decoded.iat * 1000);
     
     if ((user?.changeCredentialsTime?.getTime() || 0) > decoded.iat * 1000) {
       

@@ -6,6 +6,8 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "declaration": true,
+    "resolveJsonModule": true,
+
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -14,6 +16,11 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"]
+   
+    },
+    "types": ["node", "jest"],
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,

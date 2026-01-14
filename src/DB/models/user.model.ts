@@ -11,7 +11,6 @@ import { UpdateQuery } from "mongoose";
 import { IUser } from "src/common";
 
 
-console.log(providerEnum);
 
 
 @Schema({timestamps:true , strictQuery:true , toJSON:{virtuals:true} , toObject:{virtuals:true}})

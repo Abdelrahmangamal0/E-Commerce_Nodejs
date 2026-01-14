@@ -26,8 +26,8 @@ export class RealTimeGateway  implements OnGatewayInit ,OnGatewayConnection ,OnG
     @Auth([roleEnum.Admin])
     @SubscribeMessage('sayHi')
     sayHi(@MessageBody() data: any , @ConnectedSocket() client :Socket  , @User() user:userDocument):string {
-        console.log({data });
-        console.log(user);
+        // console.log({data });
+        // console.log(user);
         
         this.server.emit('sayHi' , 'Nest To FE')
         // client.broadcast.emit('sayHi' , 'Nest To FE')

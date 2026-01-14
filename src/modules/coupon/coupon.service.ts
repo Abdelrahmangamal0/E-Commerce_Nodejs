@@ -26,7 +26,7 @@ export class CouponService {
       throw new BadRequestException(' coupon name Duplicated')
     }
      
-    console.log(createCouponDto.type);
+    // console.log(createCouponDto.type);
     
 const startDate = new Date(createCouponDto.startDate);
 const endDate = new Date(createCouponDto.endDate);

@@ -1,4 +1,4 @@
-import { Controller, Get,  UseInterceptors  ,Headers, Patch, UploadedFile, ParseFilePipe, MaxFileSizeValidator, UploadedFiles, Post} from "@nestjs/common";
+import { Controller, Get,  UseInterceptors  ,Headers, Patch, UploadedFile, ParseFilePipe, MaxFileSizeValidator, UploadedFiles, Post, Body} from "@nestjs/common";
 import { UserServices } from "./user.services";
 import { type userDocument } from "src/DB";
 import { Auth, cloudFileUpload, fileValidations, localFileUpload, roleEnum, storageEnum} from "src/common";
@@ -8,13 +8,17 @@ import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { IResponse } from "src/common/interface/response.interface";
 import { successResponse } from "src/common/utils/response";
 import { ProfileResponse } from "./entities/user.entity";
-import type{ JwtPayload } from "jsonwebtoken";
+import type { JwtPayload } from "jsonwebtoken";
+import mongoose from 'mongoose';
+import { endPoint } from "./authorization";
+import { UpdateUserDto } from "./dto/updateUser.dto";
+
 @Controller('user')
 export class userController{
     constructor(
         private readonly userServices:UserServices
     ){}
-    @Auth([roleEnum.Admin,roleEnum.User , roleEnum.superAdmin])
+    @Auth(endPoint.profile)
     // @UseInterceptors(applyLangInterceptor)
     @Get('profile')
     async profile(
@@ -27,6 +31,7 @@ export class userController{
         return successResponse<ProfileResponse>({data:{profile} })
     }
 
+   
    
     // @UseInterceptors(FileInterceptor('profileImage', localFileUpload({Folder:'User' , validation:fileValidations.Image})))
     // @Auth([roleEnum.User])
@@ -73,13 +78,28 @@ export class userController{
         return {message:'Done' , files}
     }
 
+    @Auth([roleEnum.Admin,roleEnum.User , roleEnum.superAdmin])
+    @Patch('update-password')
+    async updatePassword(
+       
+        @User() user: userDocument ,
+        @Body() UpdateUserDto:UpdateUserDto
+    ):Promise<IResponse>
+    {
+        const result = await this.userServices.updatePassword(UpdateUserDto,user)
+        return successResponse()
+    }
+
+   
+
+
 @Auth([roleEnum.User])    
 @Post('logout')
 async logout(
       @Decode() decoded:JwtPayload
        ):Promise<IResponse>{
         
-          console.log(decoded);
+        //   console.log(decoded);
           
           await this.userServices.logout(decoded)
           return successResponse()

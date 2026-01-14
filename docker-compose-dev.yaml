@@ -1,0 +1,13 @@
+
+services:
+  e-commerce-app-dev:
+    build: 
+      context: .
+      target: dev
+    container_name:  e-commerce-app-dev-con
+    env_file:
+      - ./config/.env.dev
+    volumes:
+      - ./src:/e-commerce/src:ro
+    ports:
+      - "4000:3000"

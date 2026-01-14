@@ -39,7 +39,6 @@ export class authServices{
   
 
       const [user] = await this.userModel.create({ Data: [{ ...data }] })
-      console.log(user);
       
       if (!user) {
           throw new BadRequestException('Fail to create user')
@@ -71,7 +70,6 @@ export class authServices{
           throw new ConflictException('Fail to find match account')
       }
   
-        console.log(user.otp , user.otp[0] );
         
         if (user.otp?.length) {
          throw new ConflictException(`Sorry we can not generate new otp until the existing one become expired Please try again after ${user.otp[0].expiredAt} `)

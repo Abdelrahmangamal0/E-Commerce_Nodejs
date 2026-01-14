@@ -102,7 +102,7 @@ export class OrderService {
 
     }
     if (coupon) {
-      console.log(discount);
+      // console.log(discount);
       discount = coupon.type == CouponEnum.Percent ? coupon.discount / 100 : coupon.discount / total
      
     }

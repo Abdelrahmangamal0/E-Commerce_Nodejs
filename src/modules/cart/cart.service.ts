@@ -19,7 +19,7 @@ export class CartService {
      throw new BadRequestException('Fail to find matching product instance or product out of stock ')
    }
 
-   console.log(product);
+  //  console.log(product);
    
    const cart = await this.cartRepository.findOne({ filter: { createdBy: user._id } })
    

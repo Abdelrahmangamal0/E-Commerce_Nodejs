@@ -46,6 +46,7 @@ lerna-debug.log*
 .env.local
 
 /config/.env.dev
+/config/.env.prod
 /uploads
 
 # temp directory

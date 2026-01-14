@@ -36,7 +36,7 @@ export class PaymentService {
 
     async createCoupon(data: Stripe.CouponCreateParams): Promise<Stripe.Response<Stripe.Coupon>> {
         const coupon = await this.stripe.coupons.create(data)
-        console.log({ coupon });
+        // console.log({ coupon });
        
         return coupon
     }
@@ -60,7 +60,7 @@ export class PaymentService {
         if (event?.type !== 'checkout.session.completed') {
             throw new BadRequestException('Fail to pay')
         }
-        console.log(event);
+        // console.log(event);
        
         return event
       
@@ -86,7 +86,7 @@ export class PaymentService {
         }
 
         const confirm = await this.stripe.paymentIntents.confirm(id)
-        console.log(confirm);
+        // console.log(confirm);
         
         return confirm
     }

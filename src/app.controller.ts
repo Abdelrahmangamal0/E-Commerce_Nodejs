@@ -25,7 +25,7 @@ export class AppController {
     const Key = path.join("/");
     const url = await this.s3Service.createGetPreSignUploadLink({ Key , filename , download })
     
-    console.log('URL: ' , url);
+    // console.log('URL: ' , url);
     
     // console.log(req.params[0] as unknown as { path: string[] });
     return {message:'Done' , Data:{url}}

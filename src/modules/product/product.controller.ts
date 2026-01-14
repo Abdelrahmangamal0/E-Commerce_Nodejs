@@ -39,10 +39,10 @@ return { message: `Done at ${Date.now()}`, name: "AG" }
      @Post()
      async create(
        @User() user:userDocument,
-       @Body() createproductDto: CreateProductDto,
+       @Body() createProductDto: CreateProductDto,
        @UploadedFiles(ParseFilePipe) files:Express.Multer.File[] 
      ):Promise<IResponse<ProductResponse>> {
-       const product = await this.productService.create(createproductDto, files , user);
+       const product = await this.productService.create(createProductDto, files , user);
        return successResponse<ProductResponse>({data:{product}})
      }
   

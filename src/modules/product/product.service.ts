@@ -154,7 +154,7 @@ export class ProductService {
    
     
    const product = await this.productRepository.findOne({ filter: { _id: productId } , options:{populate:[{path:'category'}]}})   
-  console.log(product?.category);
+  // console.log(product?.category);
   
    if (!product) {
     throw new BadRequestException('Fail to find matching product instance ')

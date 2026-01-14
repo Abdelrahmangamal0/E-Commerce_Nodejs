@@ -1,0 +1,12 @@
+
+services:
+  e-commerce-app-prod:
+    build: 
+      context: .
+      target: prod
+    container_name:  e-commerce-app-prod-con
+    env_file:
+      - ./config/.env.prod
+ 
+    ports:
+      - "4001:3000"

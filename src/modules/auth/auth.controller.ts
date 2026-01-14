@@ -13,7 +13,6 @@ export class authController{
     constructor(private readonly authServices:authServices) { }
     @Post('signup')  
     async signup(@Body() body: authSignupDTO):Promise< { Message: string , data:{user:userDocument}}>{
-        console.log(body);
         
      const user =  await this.authServices.signup(body)
         return {Message:'Done' , data:{user} }
@@ -22,7 +21,6 @@ export class authController{
    
     @Post('resend_email_otp')
     async resendEmailOtp(@Body() body: resendEmailDTO): Promise<IResponse> {
-        console.log(body);
         
         await this.authServices.resendEmail(body)
         return successResponse()
@@ -40,7 +38,6 @@ export class authController{
  
         @Post('forgot-password')
         async sendForgotPassword(@Body() body: resendEmailDTO): Promise<IResponse> {
-            console.log(body);
             
             await this.authServices.sendForgotPassword(body)
             return successResponse()
@@ -48,7 +45,6 @@ export class authController{
        
         @Post('verify-password')
         async verifyForgotPassword(@Body() body: confirmEmailDTO): Promise<IResponse> {
-            console.log(body);
             
             await this.authServices.verifyForgotPassword(body)
             return successResponse()
@@ -56,11 +52,11 @@ export class authController{
        
         @Post('reset-password')
         async resetForgotPassword(@Body() body: resetPasswordDTO): Promise<IResponse> {
-            console.log(body);
             
             await this.authServices.resetForgotPassword(body)
             return successResponse()
         }
+       
        
  
  

@@ -34,7 +34,7 @@ export const cloudFileUpload = ({
     
          
     fileFilter(req: Request, file: IMulterFile, callback: Function) {
-        console.log(validation, validation.includes(file.mimetype), file.mimetype)
+        // console.log(validation, validation.includes(file.mimetype), file.mimetype)
         if (validation.includes(file.mimetype)) {
             return callback(null, true)
         }
