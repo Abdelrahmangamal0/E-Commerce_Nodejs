@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { CartRepository, CouponRepository, OrderProduct, OrderDocument, OrderRepository, ProductDocument, ProductRepository, userDocument, lean } from 'src/DB';
-import { CouponEnum, GetAllDTO, GetAllGraphQlDTO, IOrder, orderStatusEnum, PaymentEnum, PaymentService } from 'src/common';
+import { CouponEnum, GetAllDTO, GetAllGraphQlDTO, IOrder, NotificationEnum, orderStatusEnum, PaymentEnum, PaymentService } from 'src/common';
 import { randomUUID } from 'crypto';
 import { Types } from 'mongoose';
 import Stripe from 'stripe';
@@ -21,7 +21,11 @@ export class OrderService {
   ) { }
 
   async webhook(req: Request) {
+    // console.log(req.headers);
+    
     const event = await this.paymentService.webhook(req)
+  
+      
     const { orderId } = event?.data.object.metadata as { orderId: string }
     const order = await this.orderRepository.findOneAndUpdate({
       filter: {
@@ -38,7 +42,18 @@ export class OrderService {
       throw new NotFoundException("Fail to find matching order")
     }
     
-    await this.paymentService.confirmPaymentIntent(order.intentId as string)
+   const confirm = await this.paymentService.confirmPaymentIntent(order.intentId as string)
+    if (confirm.status == 'succeeded') {
+      await this.realTimeGateway.SendToUser(order.createdBy, {
+        title: 'Order Update',
+        message: 'Your order is now shipped',
+        type: NotificationEnum.Order,
+        Entity:{kind:NotificationEnum.Order , id : order._id}
+      
+    })
+    
+  }
+    
     return ""
   }
   
@@ -165,7 +180,9 @@ export class OrderService {
         status: orderStatusEnum.Cancel,
         updatedBy:user._id
       }
-     })  
+    }) 
+    
+    
     
     if (!order) {
       throw new BadRequestException('Fail to find matching instance ')
@@ -194,8 +211,22 @@ export class OrderService {
     }
       
     if (order.payment == PaymentEnum.Card) {
-      await this.paymentService.refined(order.intentId as string)
+      console.log('refined');
+     const refined = await this.paymentService.refined(order.intentId as string)
+     console.log(refined);
+     
     }
+    
+    await this.realTimeGateway.SendToUser(order.createdBy, {
+      title: 'Order Update',
+      message: 'Your order is now shipped',
+      type: NotificationEnum.Order,
+      Entity:{kind:NotificationEnum.Order , id : order._id}
+    
+  })
+  
+  //  console.log(order);
+   
     return order as OrderDocument
 
   }
@@ -265,7 +296,15 @@ export class OrderService {
     })
 
     order.intentId = intent.id
+   
     await order.save()
+   
+  //   await this.realTimeGateway.SendToUser(order.createdBy, {
+  //     title:'Order Update' ,
+  //     message: 'Your order is now shipped',
+  //     type: NotificationEnum.Order
+    
+  // })
  
     return session
 

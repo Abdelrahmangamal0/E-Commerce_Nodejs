@@ -42,8 +42,10 @@ export class PaymentService {
     }
 
     async webhook(req: Request) {
+        
         const endPointSecret = process.env.STRIPE_HOOK_SECRET as string
         let event: Stripe.Event;
+        
         try {
     
                event = this.stripe.webhooks.constructEvent(
@@ -51,6 +53,7 @@ export class PaymentService {
                 req.headers["stripe-signature"] as string,
                 endPointSecret
             )
+            console.log( event);
         } catch (err) {
             console.log('Webhook signature verification failed.', err.message);
             return;
@@ -92,6 +95,8 @@ export class PaymentService {
     }
     async refined(id:string): Promise<Stripe.Response<Stripe.Refund>>  {
         const intent = await this.retrievePaymentIntent(id) 
+        console.log(intent,intent.status);
+        
         if (intent.status !== 'succeeded') {
             throw new BadRequestException('Fail to find matching intent')
         }

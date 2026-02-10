@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException, Req } from "@nestjs/common";
 import { JwtPayload } from "jsonwebtoken";
-import { compareHash, generateHash, S3Service, storageEnum, tokenEnum } from "src/common";
+import { compareHash, generateHash, GetAllDTO, GetAllGraphQlDTO, INotification, S3Service, storageEnum, tokenEnum } from "src/common";
 import { TokenService } from "src/common/services/token/token.service";
-import { userDocument, UserRepository } from "src/DB";
+import { lean, NotificationDocument, NotificationRepository, userDocument, UserRepository } from "src/DB";
 import { UpdateUserDto } from "./dto/updateUser.dto";
+import { Types } from "mongoose";
 
 @Injectable()
 export class UserServices {
@@ -11,7 +12,8 @@ export class UserServices {
     constructor(
         private readonly s3Service: S3Service,
         private readonly userRepository: UserRepository,
-        private readonly tokenService: TokenService
+        private readonly tokenService: TokenService,
+        private readonly notificationRepository: NotificationRepository
     ) { }
     async profile(user: userDocument): Promise<userDocument> {
       
@@ -55,6 +57,55 @@ export class UserServices {
         return 'Done'
     }
 
+
+   
+  async allNotification(data: GetAllDTO, user:userDocument): Promise<{
+    docsCount?: number,
+    limit?: number,
+    pages?: number,
+    currentPage?: number | undefined,
+    result: NotificationDocument[] | lean<NotificationDocument>[]
+  }> {
+        
+    const { page, size } = data
+        
+    const notifications = await this.notificationRepository.paginate({
+      
+        filter: {
+            userId:user._id
+        }      
+      ,
+      page,
+      size
+    })
+    
+    
+ 
+    return  notifications;
+      
+  }
+ 
+async getOneNotification(notificationId: Types.ObjectId, user: userDocument): Promise<INotification> {
+        
+    const notification = await this.notificationRepository.findOneAndUpdate({
+      
+        filter: {
+            _id:notificationId,
+            userId: user._id
+            
+        },      
+        update: {
+         isRead:'true'
+     }
+    })
+    
+    if (!notification) {
+        throw new NotFoundException('fail to find matching instance')
+    }
+    
+    return notification;
+      
+  }
 
 
     async logout(decoded: JwtPayload):Promise<string> {

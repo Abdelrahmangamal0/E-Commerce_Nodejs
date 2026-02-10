@@ -9,7 +9,7 @@ export class OrderParamDto {
 export class CreateOrderDto implements Partial<IOrder> {
    
     @IsMongoId()
-    @Optional()
+    @IsOptional()
     coupon?: Types.ObjectId
     
     @IsNotEmpty()

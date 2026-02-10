@@ -2,8 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCouponDto } from './dto/create-coupon.dto';
 import { UpdateCouponDto, UpdateParamsCouponDto } from './dto/update-coupon.dto';
 import { CouponDocument, CouponRepository, lean, userDocument, UserRepository } from 'src/DB';
-import { FolderEnum, GetAllDTO, S3Service } from 'src/common';
+import { FolderEnum, GetAllDTO, S3Service, storageEnum } from 'src/common';
 import { Types } from 'mongoose';
+import { RealTimeGateway } from '../gateway/gateway';
 
 @Injectable()
 export class CouponService {
@@ -11,6 +12,7 @@ export class CouponService {
   constructor(
     private readonly couponRepository:CouponRepository,
     private readonly s3Service: S3Service,
+    private readonly realTimeGateway: RealTimeGateway,
       
   ){}
 
@@ -42,6 +44,7 @@ if (endDate <= startDate) {
 
     const image = await this.s3Service.uploadFile({
       file,
+      storageApproach:storageEnum.memory,
       path:FolderEnum.Coupon
     })
   
@@ -61,6 +64,7 @@ if (endDate <= startDate) {
       throw new BadRequestException('Fail to create this coupon')
     }
   
+    await this.realTimeGateway.CouponOffer(coupon._id) 
     return coupon;
   }
   async update(couponId:Types.ObjectId, updateCouponDto: UpdateCouponDto, user: userDocument): Promise<CouponDocument> {
@@ -123,6 +127,7 @@ if (endDate <= startDate) {
     if (!updateCoupon) {
       throw new BadRequestException(' fail to find coupon Instance')
     }
+    await this.realTimeGateway.CouponOffer(updateCoupon._id , 'update coupon' ) 
     
     return updateCoupon as unknown as CouponDocument ;
   }

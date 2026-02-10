@@ -2,5 +2,5 @@ import { roleEnum } from "src/common";
 
 export const endPoint ={
 create:[roleEnum.User],
-cancel:[roleEnum.Admin , roleEnum.superAdmin]
+cancel:[roleEnum.User,roleEnum.Admin , roleEnum.superAdmin]
 }

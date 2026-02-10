@@ -1,6 +1,7 @@
   import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
   import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { log } from 'console';
   import { roleName } from 'src/common/decorator/role.decorator';
   import { roleEnum } from 'src/common/enums';
   
@@ -15,20 +16,27 @@ import { GqlExecutionContext } from '@nestjs/graphql';
       ) ?? [];
   
       let role: roleEnum = roleEnum.User;
-  
+       
       switch (context.getType<string>()) {
         case 'http':
           const httpCtx = context.switchToHttp();
           role = httpCtx.getRequest()?.credentials?.user?.role ?? roleEnum.User;
           break;
-          case 'ws':
-                role = context.switchToWs().getClient().credentials?.user?.role ?? roleEnum.User
-          case 'graphql':
-                role = GqlExecutionContext.create(context).getContext().req.credentials?.user?.role ?? roleEnum.User
+       
+        case 'ws':
+          role = context.switchToWs().getClient().credentials?.user?.role ?? roleEnum.User
+       
+          break;
+       
+        case 'graphql':
+          role = GqlExecutionContext.create(context).getContext().req.credentials?.user?.role ?? roleEnum.User
+          break;
+      
         default:
+         console.log('default');
+         
           break;
       }
-  
       return accessRole.includes(role);
     }
   }

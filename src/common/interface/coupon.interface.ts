@@ -13,7 +13,7 @@ export interface ICoupon{
 
      usedBy:Types.ObjectId[] | IUser[]
      
-     duration:Number 
+     duration?:Number 
      discount:Number 
     
      type: CouponEnum 

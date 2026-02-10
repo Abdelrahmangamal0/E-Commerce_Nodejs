@@ -12,7 +12,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
               case 'ws':
           
                   req = context.switchToWs().getClient();
-                 
+                  break;
               case 'graphql':
           
                   req = GqlExecutionContext.create(context).getContext().req;
@@ -35,7 +35,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
               case 'ws':
           
                   req = context.switchToWs().getClient();
-                 
+                  break;
               case 'graphql':
           
                   req = GqlExecutionContext.create(context).getContext().req;

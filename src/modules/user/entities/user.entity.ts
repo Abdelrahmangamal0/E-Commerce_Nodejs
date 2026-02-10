@@ -1,4 +1,4 @@
-import { type IOtp, IUser, OneOtpResponse } from "src/common";
+import { INotification, type IOtp, IUser, OneOtpResponse } from "src/common";
 import { Field, ID, ObjectType, registerEnumType} from '@nestjs/graphql';
 import { Document, Types } from 'mongoose';
 import { IProduct } from '../../../common';
@@ -8,6 +8,19 @@ import { Otp } from "src/DB";
 export class ProfileResponse{
     profile:IUser
    
+}
+export class NotificationResponse{
+  notifications: {
+    docsCount?: number
+    limit?: number
+    pages?: number
+    currentPage?: number
+    result: INotification[]
+  }
+}
+export class getOneNotificationResponse{
+  notification:INotification
+  
 }
 
 

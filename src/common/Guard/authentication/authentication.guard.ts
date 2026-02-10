@@ -32,10 +32,12 @@ export class AuthenticationGuard implements CanActivate {
       case 'ws':
         const ws_context = context.switchToWs()
         req = ws_context.getClient()
-      //  console.log(req.handshake.headers);
+        authorization = req.handshake.headers.authorization;
+        break; 
+      
       case 'graphql':
       
-        req = GqlExecutionContext.create(context) .getContext().req
+        req = GqlExecutionContext.create(context).getContext().req
         authorization = req.headers.authorization
         
         break;
@@ -44,16 +46,17 @@ export class AuthenticationGuard implements CanActivate {
         break;
     }
 
-    if (!authorization) throw new UnauthorizedException('No token provided');
-
+    if (!authorization) {
+      throw new UnauthorizedException('No token provided');
+}
     const { user, decoded } = await this.tokenService.decodeToken(authorization, token_type);
     
     const revoked = await this.tokenRepository.findOne({ filter: { jti: decoded.jti } });
     if (revoked) throw new UnauthorizedException('Token revoked');
 
     req.credentials = { user, decoded };
-    
     return true
+    
    
   }
 }

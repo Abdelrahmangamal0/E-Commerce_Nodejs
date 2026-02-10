@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { CouponService } from './coupon.service';
 import { CouponController } from './coupon.controller';
 import { S3Service, SharedAuthModule } from 'src/common';
-import { BrandModel, BrandRepository, CategoryModel, CouponModel, CouponRepository } from 'src/DB';
+import {  CouponModel, CouponRepository, NotificationModel, NotificationRepository } from 'src/DB';
+// import { RealTimeModule } from '../gateway/gateway.module';
+import { RealTimeGateway } from '../gateway/gateway';
 
 @Module({
-  imports: [CouponModel , SharedAuthModule],
+  imports: [CouponModel , SharedAuthModule  , NotificationModel],
   controllers: [CouponController],
-  providers: [CouponService , CouponRepository , S3Service] ,
+  providers: [CouponService , CouponRepository , S3Service , RealTimeGateway , NotificationRepository] ,
 })
 export class CouponModule {}

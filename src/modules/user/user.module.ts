@@ -5,11 +5,12 @@ import { userController } from "./user.controller";
 import { preAuth } from "src/common/middleware/authentication.middleware";
 import { SharedAuthModule } from "src/common/services/modules/auth.module";
 import { S3Service } from "src/common";
+import { NotificationModel, NotificationRepository } from "src/DB";
 
 
 @Module({
-    imports: [SharedAuthModule ],
-    providers: [UserServices , S3Service],
+    imports: [SharedAuthModule , NotificationModel ],
+    providers: [UserServices , S3Service , NotificationRepository],
     controllers: [userController],
     exports: [],
 })

@@ -30,21 +30,21 @@ describe('OrderService', () => {
     findById: jest.fn(),
   };
 
-  const mockRealTimeGateway = {
-    emit: jest.fn(),
-  };
+  // const mockRealTimeGateway = {
+  //   emit: jest.fn(),
+  // };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        OrderService,
-        { provide: PaymentService, useValue: mockPaymentService },
-        { provide: OrderRepository, useValue: mockOrderRepository },
-        { provide: CartRepository, useValue: mockCartRepository },
-        { provide: CouponRepository, useValue: mockCouponRepository },
-        { provide: ProductRepository, useValue: mockProductRepository },
-        { provide: RealTimeGateway, useValue: mockRealTimeGateway },
-      ],
+      // providers: [
+      //   OrderService,
+      //   { provide: PaymentService, useValue: mockPaymentService },
+      //   { provide: OrderRepository, useValue: mockOrderRepository },
+      //   { provide: CartRepository, useValue: mockCartRepository },
+      //   { provide: CouponRepository, useValue: mockCouponRepository },
+      //   { provide: ProductRepository, useValue: mockProductRepository },
+      //   { provide: RealTimeGateway, useValue: mockRealTimeGateway },
+      // ],
     }).compile();
 
     service = module.get<OrderService>(OrderService);

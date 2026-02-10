@@ -1,0 +1,15 @@
+{
+  "workspace": {
+    "id": "33af2558-ab37-4aff-a513-70af690af5c8"
+  },
+  "entities": {
+    "environments": [],
+    "flows": [],
+    "globals": [],
+    "mocks": [],
+    "specs": [
+      "..\\swagger-json.json"
+    ],
+    "collections": []
+  }
+}

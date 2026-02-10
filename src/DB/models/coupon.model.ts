@@ -15,9 +15,9 @@ export class Coupon implements ICoupon {
     @Prop({type:String , required:true})
     image: string
    
-    @Prop({type:Number , required:true})
+    @Prop({type:Number , required:false})
     
-    duration: number;
+    duration?: number;
     
     @Prop({type:Number , default:1})
     discount: number;
