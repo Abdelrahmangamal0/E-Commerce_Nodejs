@@ -205,59 +205,60 @@ export class BrandService {
  
  
  
-  async findAll(data:GetAllDTO):Promise<{docsCount?:number,
-  limit?: number,
-  pages?:number,
-  currentPage?: number|undefined,
-  result: BrandDocument[] | lean <BrandDocument>[] }>
-  {
-    
-    const {page , size , search} = data
-    
+  private buildSearchFilter(search?: string) {
+    if (!search) return {};
+    return {
+      $or: [
+        { name: { $regex: search, $options: 'i' } }, // تعليق: البحث بالاسم بدلاً من الحقل غير الصحيح page
+        { slug: { $regex: search, $options: 'i' } },
+        { slogan: { $regex: search, $options: 'i' } },
+      ],
+    };
+  }
+
+  async findAll(
+    data: GetAllDTO,
+  ): Promise<{
+    docsCount?: number;
+    limit?: number;
+    pages?: number;
+    currentPage?: number | undefined;
+    result: BrandDocument[] | lean<BrandDocument>[];
+  }> {
+    const { page, size, search } = data;
+
     const brands = await this.brandRepository.paginate({
       filter: {
-        ...(
-          search ? {
-            $or: [
-             {page:{$regex:search , $options:'i'}},
-             {slug:{$regex:search , $options:'i'}},
-             {slogan:{$regex:search , $options:'i'}}
-            ]
-          }:{}
-        )
+        ...this.buildSearchFilter(search),
       },
       page,
-      size
-    })
-   
+      size,
+    });
+
     return brands;
   }
-  async findAllArchive(data:GetAllDTO , archive:Boolean=false):Promise<{docsCount?:number,
-  limit?: number,
-  pages?:number,
-  currentPage?: number|undefined,
-  result: BrandDocument[] | lean <BrandDocument>[] }>
-  {
-    
-    const {page , size , search} = data
-    
+
+  async findAllArchive(
+    data: GetAllDTO,
+    archive = false, // تعليق: استخدام النوع البدائي boolean مع قيمة افتراضية أوضح
+  ): Promise<{
+    docsCount?: number;
+    limit?: number;
+    pages?: number;
+    currentPage?: number | undefined;
+    result: BrandDocument[] | lean<BrandDocument>[];
+  }> {
+    const { page, size, search } = data;
+
     const brands = await this.brandRepository.paginate({
       filter: {
-        ...(
-          search ? {
-            $or: [
-             {page:{$regex:search , $options:'i'}},
-             {slug:{$regex:search , $options:'i'}},
-             {slogan:{$regex:search , $options:'i'}}
-            ]
-          } : {}),
-          ...(archive?{paranoId:false , freezedAt:{$exists:true}}:{})
-        
+        ...this.buildSearchFilter(search),
+        ...(archive ? { paranoId: false, freezedAt: { $exists: true } } : {}),
       },
       page,
-      size
-    })
-   
+      size,
+    });
+
     return brands;
   }
   async findOne(

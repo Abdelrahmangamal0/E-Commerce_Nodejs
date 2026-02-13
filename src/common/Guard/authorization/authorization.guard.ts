@@ -21,6 +21,8 @@ import { log } from 'console';
         case 'http':
           const httpCtx = context.switchToHttp();
           role = httpCtx.getRequest()?.credentials?.user?.role ?? roleEnum.User;
+         console.log(role);
+         
           break;
        
         case 'ws':
@@ -37,6 +39,8 @@ import { log } from 'console';
          
           break;
       }
+     console.log(accessRole,accessRole.includes(role));
+     
       return accessRole.includes(role);
     }
   }

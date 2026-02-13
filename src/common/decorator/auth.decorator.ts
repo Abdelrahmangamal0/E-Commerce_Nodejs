@@ -7,7 +7,8 @@ import { Roles } from "./role.decorator";
 import { tokenEnum } from "../enums";
 
 export function Auth(roles: roleEnum[], type: tokenEnum = tokenEnum.access_token) {
- return   applyDecorators(
+ 
+    return applyDecorators(
         token(type),
         Roles(roles),
        UseGuards(AuthenticationGuard,AuthorizationGuard)

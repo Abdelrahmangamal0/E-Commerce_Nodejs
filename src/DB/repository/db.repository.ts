@@ -68,6 +68,14 @@ export abstract class DatabaseRepository<TRowDocument ,  TDocument = HydratedDoc
               
           return await doc.exec()
       }
+      
+      async countDocuments({
+          filter = {},
+      }: {
+          filter?: RootFilterQuery<TRowDocument>
+      }): Promise<number> {
+          return this.model.countDocuments(filter);
+      }
       async paginate({
           filter={},
           select={},
